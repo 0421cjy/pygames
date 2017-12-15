@@ -1,4 +1,5 @@
-import sys, pygame
+import sys
+import pygame
 import random
 
 pygame.init()
@@ -15,11 +16,24 @@ image6 = pygame.image.load("image6.png")
 deck = []
 copy_deck = []
 
-card_kind = [image1,image2,image3,image4,image5, image6];
+card_kind = [image1,image2,image3,image4,image5, image6]
 
 for i in range(0, 10):
     random.shuffle(card_kind)
     deck.append(card_kind[0])
+
+def matchDeck():
+    
+    for i in range(5):
+        while(deck[i] == deck[i + 5]):
+
+            for j in range(4 - i):
+                deck[i + j] = deck[i + j + 1]
+                deck[i + j + 5] = deck[i + j + 5 + 1]
+
+            random.shuffle(card_kind)
+            deck[4] = card_kind[0]
+            deck[9] = card_kind[1]
 
 while 1:
     for event in pygame.event.get():
@@ -36,6 +50,8 @@ while 1:
                         copy_deck[5] = deck[5 + i + 1]
                 deck = copy_deck[:]
 
+                matchDeck()
+
             if event.key == pygame.K_LEFT:
                 copy_deck = deck[:] # value copy
                 for i in range(1, 5): # 1 2 3 4
@@ -43,6 +59,8 @@ while 1:
                     if (i == 4):
                         copy_deck[5 + i] = deck[5]
                 deck = copy_deck[:]
+
+                matchDeck()
 
         if event.type == pygame.MOUSEBUTTONUP:
             x,y = event.pos
@@ -53,6 +71,8 @@ while 1:
             deck[value] = deck[value + 5]
             deck[value + 5] = temp
 
+            matchDeck()
+
     for x in range(5):
         for y in range(2):
             img = deck[y * 5 + x]
@@ -60,13 +80,3 @@ while 1:
 
     pygame.display.update()
 
-    def matchDeck():
-        for i in range(5):
-            if(deck[i] == deck[i + 5]):
-                for j in range(5 - i):
-                    deck[j] = deck[j + 1]
-                    deck[j + 5] = deck[j + 5 + 1]
-
-                    random.shuffle(card_kind)
-                    deck[j + 1] = card_kind[0]
-                    deck[j + 5 + 1] = card_kind[1]
