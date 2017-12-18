@@ -3,15 +3,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>e46d335d-a829-4d40-8906-199283d25666</ProjectGuid>
+    <ProjectGuid>1b571309-1ba5-4459-ac71-da2b03a840fd</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>03_snakeGame.py</StartupFile>
+    <StartupFile>snakeGame.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>03_snakeGame</Name>
-    <RootNamespace>03_snakeGame</RootNamespace>
+    <Name>snakeGame</Name>
+    <RootNamespace>snakeGame</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,7 +22,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="03_snakeGame.py" />
+    <Compile Include="snakeGame.py" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
