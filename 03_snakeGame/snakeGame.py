@@ -48,7 +48,8 @@ def DrawLines():
 
 def GenerateApple():
 
-    shuffle = [3,4,5,6,7,8,9,0]
+    shuffle = [1,2,3,4,5,6,7,0]
+    shuffle * 2
     random.shuffle(shuffle)
 
     if(shuffle[0] == 0 and map[0]['used'] == 1):
