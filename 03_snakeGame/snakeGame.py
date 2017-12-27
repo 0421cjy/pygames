@@ -31,6 +31,7 @@ head = {
 
 snake.append(head)
 
+#initial apple position
 apple = {
         'x' : 3,
         'y' : 0,
@@ -47,7 +48,6 @@ def DrawLines():
         pygame.draw.line(screen, black, [v, 0], [v, 500], 3)
 
 def GenerateApple():
-
     shuffle = [1,2,3,4,5,6,7,0]
     shuffle * 2
     random.shuffle(shuffle)
@@ -108,7 +108,7 @@ def Move():
             snake[0]['y'] += 1
 
     time.sleep(0.2)
-    # apple generate
+
     GenerateApple()
 
 while 1:
@@ -135,18 +135,17 @@ while 1:
                     snake[0]['dir'] = 'DOWN'
 
     screen.fill(white)
-
     DrawLines()
     MeetApple()
     Move()
-
-    for x in range(len(snake)):
-        img = snake[x]['img']
-        screen.blit(img, (snake[x]['x'] * 50 + 6, snake[x]['y'] * 50 + 6))
 
     for y in range(len(map)):
         if(map[y]['used'] == 0):
             img = map[y]['img']
             screen.blit(img, (map[y]['x'] * 50 + 6, map[y]['y'] * 50 + 6))
+
+    for x in range(len(snake)):
+        img = snake[x]['img']
+        screen.blit(img, (snake[x]['x'] * 50 + 6, snake[x]['y'] * 50 + 6))
 
     pygame.display.flip()
