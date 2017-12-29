@@ -18,7 +18,7 @@ white = (255, 255, 255)
 color_list = ['red', 'orange', 'yellow', 'green', 'blue', 'purple']
 block_list = []
 next_block = []
-move_list = []
+move_direction = []
 
 #image
 redTileImage = pygame.image.load("redTile.png")
@@ -27,7 +27,6 @@ yellowTileImage = pygame.image.load("yellowTile.png")
 greenTileImage = pygame.image.load("greenTile.png")
 blueTileImage = pygame.image.load("blueTile.png")
 purpleTileImage = pygame.image.load("purpleTile.png")
-
 
 block = {
     'x' : 0,
@@ -59,6 +58,12 @@ block3 = {
 
 block_list.append(block3)
 
+dir = {
+    'dir' : 'Down'
+    }
+
+move_direction.append(dir)
+
 def MoveRight():
     for x in range(len(block_list)):
         if(block_list[x]['isMove'] == True):
@@ -74,19 +79,19 @@ def MoveDown():
         if(block_list[x]['isMove'] == True):
             block_list[x]['y'] += 1
 
+def Move():
+    if(move_direction[0]['dir'] == 'Left'):
+        MoveLeft()
+        move_direction[0]['dir'] = 'Down'
+    if(move_direction[0]['dir'] == 'Right'):
+        MoveRight()
+        move_direction[0]['dir'] = 'Down'
+    if(move_direction[0]['dir'] == 'Down'):
+        MoveDown()
     time.sleep(0.4)
 
-def Move():
-    for x in range(len(move_list)):
-        if(move_list[x] == 'Left'):
-            MoveLeft()
-        if(move_list[x] == 'Right'):
-            MoveRight()
-        if(move_list[x] == 'Down'):
-            MoveDown()
-
 pygame.init()
-screen = pygame.display.set_mode((400,300))
+screen = pygame.display.set_mode((400,700))
 pygame.display.set_caption('columns')
 
 while 1:
@@ -96,9 +101,9 @@ while 1:
                 pygame.quit()
                 sys.exit()
             if event.key == pygame.K_RIGHT:
-                MoveRight()
+                move_direction[0]['dir'] = 'Right'
             if event.key == pygame.K_LEFT:
-                MoveLeft()
+                move_direction[0]['dir'] = 'Left'
         
     screen.fill(white)
 
@@ -106,6 +111,6 @@ while 1:
         img = block_list[x]['img']
         screen.blit(img, (block_list[x]['x'] * 50 + 30, block_list[x]['y'] * 50))
 
-    moveDown()
+    Move()
 
     pygame.display.flip()
