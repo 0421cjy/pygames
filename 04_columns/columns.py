@@ -12,11 +12,14 @@ import sys, pygame
 import random
 import time
 
+TARGET_FPS = 3
+
 # colors
 white = (255, 255, 255)
 
 color_list = ['red', 'orange', 'yellow', 'green', 'blue', 'purple']
 block_list = []
+cur_move_block_list = []
 next_block = []
 move_direction = []
 
@@ -36,7 +39,7 @@ block = {
     'isMove' : True
 }
 
-block_list.append(block)
+cur_move_block_list.append(block)
 
 block2 = {
     'x' : 0,
@@ -46,7 +49,7 @@ block2 = {
     'isMove' : True
 }
 
-block_list.append(block2)
+cur_move_block_list.append(block2)
 
 block3 = {
     'x' : 0,
@@ -56,7 +59,7 @@ block3 = {
     'isMove' : True
 }
 
-block_list.append(block3)
+cur_move_block_list.append(block3)
 
 dir = {
     'dir' : 'Down'
@@ -65,19 +68,33 @@ dir = {
 move_direction.append(dir)
 
 def MoveRight():
-    for x in range(len(block_list)):
-        if(block_list[x]['isMove'] == True):
-            block_list[x]['x'] += 1
+    if(move_direction[0]['dir'] == 'Stop'):
+        return
+
+    for x in range(len(cur_move_block_list)):
+        if(cur_move_block_list[x]['isMove'] == True):
+            cur_move_block_list[x]['x'] += 1
 
 def MoveLeft():
-    for x in range(len(block_list)):
-        if(block_list[x]['isMove'] == True):
-            block_list[x]['x'] -= 1
+    if(move_direction[0]['dir'] == 'Stop'):
+        return
+
+    for x in range(len(cur_move_block_list)):
+        if(cur_move_block_list[x]['isMove'] == True):
+            cur_move_block_list[x]['x'] -= 1
 
 def MoveDown():
-    for x in range(len(block_list)):
-        if(block_list[x]['isMove'] == True):
-            block_list[x]['y'] += 1
+    if(move_direction[0]['dir'] == 'Stop'):
+        return
+
+    for x in range(len(cur_move_block_list)):
+        if(cur_move_block_list[x]['isMove'] == True):
+            cur_move_block_list[x]['y'] += 0.5
+        
+        if(cur_move_block_list[x]['y'] == 5):
+            #일정 위치가 되거나 기존 블록과 충돌하면 정지한다.
+            move_direction[0]['dir'] = 'Stop'
+            MoveToFix()
 
 def Move():
     if(move_direction[0]['dir'] == 'Left'):
@@ -88,11 +105,25 @@ def Move():
         move_direction[0]['dir'] = 'Down'
     if(move_direction[0]['dir'] == 'Down'):
         MoveDown()
-    time.sleep(0.4)
+
+def PrintPos():
+    textSurfaceObj = fontObj.render('posX : {0}, posY : {1}'.format(cur_move_block_list[2]['x'], cur_move_block_list[2]['y']) , True, (0, 0, 0))
+    textRectObj = textSurfaceObj.get_rect()
+    textRectObj.center = (350, 15)
+    screen.blit(textSurfaceObj, textRectObj)
+
+def MoveToFix():
+    for x in range(len(cur_move_block_list)):
+        block_list.append(cur_move_block_list[x])
+
+clock = pygame.time.Clock()
 
 pygame.init()
 screen = pygame.display.set_mode((400,700))
 pygame.display.set_caption('columns')
+
+#font
+fontObj = pygame.font.Font('font/nanum.ttf', 11)
 
 while 1:
     for event in pygame.event.get():
@@ -107,10 +138,16 @@ while 1:
         
     screen.fill(white)
 
+    for x in range(len(cur_move_block_list)):
+        img = cur_move_block_list[x]['img']
+        screen.blit(img, (cur_move_block_list[x]['x'] * 50, cur_move_block_list[x]['y'] * 50))
+
     for x in range(len(block_list)):
         img = block_list[x]['img']
-        screen.blit(img, (block_list[x]['x'] * 50 + 30, block_list[x]['y'] * 50))
+        screen.blit(img, (block_list[x]['x'] * 50, block_list[x]['y'] * 50))
 
     Move()
+    PrintPos()
+    clock.tick(TARGET_FPS)
 
     pygame.display.flip()
